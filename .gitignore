@@ -1,0 +1,19 @@
+# Vivado temporary and build files
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+xsim.dir/
+.Xil/
+*.log
+*.jou
+*.pb
+*.wdb
+*.str
+*.zip
+calculator_tb_snap.wdb
+
+# OS files
+Thumbs.db
+Desktop.ini

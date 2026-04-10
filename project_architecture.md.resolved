@@ -1,0 +1,61 @@
+# 4-bit Calculator Architecture
+
+## Overview
+This project contains a 4-bit arithmetic logic unit (ALU) implemented in Verilog within a Vivado project. It was previously designed to handle both integer and floating-point operations, but floating-point capabilities have been deprecated or removed, making `alu_integer` the core computational block.
+
+## System Architecture
+
+The current active design leverages the `top` module as the main entry point, routing inputs to the `alu_integer` submodule and returning the evaluated results.
+
+```mermaid
+graph TD
+    subgraph Testbench
+    TB[top_tb.v]
+    end
+
+    subgraph Top Module
+    Top[top.v]
+    end
+
+    subgraph Core Logic
+    ALUInt[alu_integer.v]
+    end
+
+    subgraph "Unused / Deprecated Modules"
+        direction TB
+        Calc[calculator.v]
+        ALU[alu.v]
+        Ctrl[control.v]
+        ALUFloat[alu_float.v]
+        ALUFloat4[alu_float4.v]
+    end
+
+    TB -->|Inputs: A, B, sel<br>Outputs: result, overflow| Top
+    Top -->|Inputs: A, B, sel<br>Outputs: int_result, ov_int| ALUInt
+    
+    style ALUFloat fill:#fee,stroke:#c33,stroke-width:2px,stroke-dasharray: 5 5
+    style ALUFloat4 fill:#fee,stroke:#c33,stroke-width:2px,stroke-dasharray: 5 5
+    style Calc fill:#fee,stroke:#c33,stroke-width:2px,stroke-dasharray: 5 5
+    style ALU fill:#fee,stroke:#c33,stroke-width:2px,stroke-dasharray: 5 5
+    style Ctrl fill:#fee,stroke:#c33,stroke-width:2px,stroke-dasharray: 5 5
+```
+
+## Module Descriptions
+
+### Active Pipeline
+1. **`top_tb.v`**: The main testbench. Used to simulate and verify the correctness of the operations across various scenarios. *(Note: currently contains some legacy float-tests and attempts to pass a `mode` bit to `top.v` that is no longer present in the `top.v` pinout).*
+2. **`top.v`**: The top-level design wrapper module. It takes 4-bit operands `A` and `B`, a 3-bit selector `sel`, and passes them to the `alu_integer` module to retrieve an 8-bit `result` and a 1-bit `overflow` flag. 
+3. **`alu_integer.v`**: The core integer ALU. It performs operations based on the 3-bit `sel`:
+   - `000` - Addition
+   - `001` - Subtraction
+   - `010` - Multiplication
+   - `011` - Division
+   - `100` - AND
+   - `101` - OR
+   - `110` - XOR
+   - `111` - Default (Zero)
+
+### Deprecated / Unused Components
+- **`alu.v` / `calculator.v`**: Alternate and older ALU designs that are not instantiated by the current `top.v` wrapper.
+- **`control.v`**: A simple clock-synchronized flip-flop for standardizing the select line *(not actively wired into top)*.
+- **`alu_float.v` / `alu_float4.v`**: Floating-point calculation components that have been explicitly marked as removed from the project logic inside the code comments.
