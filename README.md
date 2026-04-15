@@ -73,16 +73,6 @@ The calculator performs both **addition** and **two’s-complement subtraction**
   <em>Figure 5: Addition — 9 + 8 = B (Hexadecimal: 1001 + 1000 = 1011)</em>
 </p>
 
----
-
-## 🧑‍💻 Author
-
-**Shivam Gupta**  
-💼 [LinkedIn](https://www.linkedin.com/in/shivammmmg)  
-💻 [GitHub](https://github.com/shivammmmg)
-
----
-
 ## 🏁 Summary
 
 This FPGA project showcases a compact **hardware arithmetic calculator** built purely with **digital logic** in Verilog.  
